@@ -1,5 +1,7 @@
 package main;
 
+import classes.Game;
+
 import checker.Checker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,6 +89,8 @@ public final class Main {
          * output.add(objectNode);
          *
          */
+        Game game = new Game(inputData.getPlayerOneDecks(), inputData.getPlayerTwoDecks());
+        game.startGame(inputData.getGames(), output);
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePath2), output);
