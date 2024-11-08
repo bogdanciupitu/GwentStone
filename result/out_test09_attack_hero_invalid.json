@@ -1,0 +1,85 @@
+[ {
+  "command" : "getCardAtPosition",
+  "x" : 3,
+  "y" : 0,
+  "output" : {
+    "mana" : 1,
+    "attackDamage" : 5,
+    "health" : 2,
+    "description" : "Standard card: Trained by the best, nothing will catch him off-guard.",
+    "colors" : [ "Black", "Grey", "Blue" ],
+    "name" : "Sentinel"
+  }
+}, {
+  "command" : "getPlayerHero",
+  "playerIdx" : 1,
+  "output" : {
+    "mana" : 2,
+    "description" : "Premium card: Time to show who we are, the low-class was never scared of you.",
+    "colors" : [ "Brown", "Pink", "Purple" ],
+    "name" : "King Mudface",
+    "health" : 0
+  }
+}, {
+  "command" : "getPlayerHero",
+  "playerIdx" : 2,
+  "output" : {
+    "mana" : 2,
+    "description" : "Standard card: Absolute order, a soldier must devote his life to his General.",
+    "colors" : [ "Red", "Black", "Purple" ],
+    "name" : "General Kocioraw",
+    "health" : 21
+  }
+}, {
+  "command" : "getCardsInHand",
+  "playerIdx" : 2,
+  "output" : [ {
+    "mana" : 1,
+    "attackDamage" : 6,
+    "health" : 3,
+    "description" : "Premium card: Insanity is always an option, now it is an absolute.",
+    "colors" : [ "Yellow", "Orange", "Red" ],
+    "name" : "Miraj"
+  } ]
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 2,
+  "output" : 7
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 2
+}, {
+  "command" : "getCardAtPosition",
+  "x" : 1,
+  "y" : 0,
+  "output" : {
+    "mana" : 1,
+    "attackDamage" : 4,
+    "health" : 8,
+    "description" : "Premium card: No matter how many, his body will fight. Save your breath for the Mountain is strong.",
+    "colors" : [ "Red", "Purple" ],
+    "name" : "Goliath"
+  }
+}, {
+  "command" : "getPlayerHero",
+  "playerIdx" : 1,
+  "output" : {
+    "mana" : 2,
+    "description" : "Premium card: Time to show who we are, the low-class was never scared of you.",
+    "colors" : [ "Brown", "Pink", "Purple" ],
+    "name" : "King Mudface",
+    "health" : 0
+  }
+}, {
+  "command" : "getPlayerHero",
+  "playerIdx" : 2,
+  "output" : {
+    "mana" : 2,
+    "description" : "Standard card: Absolute order, a soldier must devote his life to his General.",
+    "colors" : [ "Red", "Black", "Purple" ],
+    "name" : "General Kocioraw",
+    "health" : 21
+  }
+}, {
+  "gameEnded" : "Player two killed the enemy hero."
+} ]

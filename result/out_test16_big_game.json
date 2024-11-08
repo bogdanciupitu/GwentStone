@@ -1,0 +1,142 @@
+[ {
+  "command" : "getPlayerTurn",
+  "output" : 1
+}, {
+  "command" : "getFrozenCardsOnTable",
+  "output" : [ ]
+}, {
+  "command" : "getFrozenCardsOnTable",
+  "output" : [ ]
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 2,
+  "output" : 1
+}, {
+  "command" : "getFrozenCardsOnTable",
+  "output" : [ ]
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 0
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 1
+}, {
+  "command" : "getCardAtPosition",
+  "x" : 0,
+  "y" : 0,
+  "output" : {
+    "mana" : 2,
+    "attackDamage" : 2,
+    "health" : 2,
+    "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
+    "colors" : [ "Red", "Blue", "Pink" ],
+    "name" : "Berserker"
+  }
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 2
+}, {
+  "command" : "getCardAtPosition",
+  "x" : 2,
+  "y" : 0,
+  "output" : {
+    "mana" : 3,
+    "attackDamage" : 6,
+    "health" : 1,
+    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
+    "colors" : [ "Orange", "Red", "Black" ],
+    "name" : "The Ripper"
+  }
+}, {
+  "command" : "useHeroAbility",
+  "affectedRow" : 0,
+  "error" : "Not enough mana to use hero's ability."
+}, {
+  "command" : "getCardAtPosition",
+  "x" : 2,
+  "y" : 0,
+  "output" : {
+    "mana" : 3,
+    "attackDamage" : 6,
+    "health" : 1,
+    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
+    "colors" : [ "Orange", "Red", "Black" ],
+    "name" : "The Ripper"
+  }
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 0
+}, {
+  "command" : "getCardAtPosition",
+  "x" : 0,
+  "y" : 0,
+  "output" : {
+    "mana" : 2,
+    "attackDamage" : 2,
+    "health" : 2,
+    "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
+    "colors" : [ "Red", "Blue", "Pink" ],
+    "name" : "Berserker"
+  }
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 2
+}, {
+  "command" : "useAttackHero",
+  "attackerCard" : {
+    "x" : 0,
+    "y" : 1
+  },
+  "error" : "Attacked hero is not of type 'Tank’."
+}, {
+  "command" : "useAttackHero",
+  "attackerCard" : {
+    "x" : 0,
+    "y" : 1
+  },
+  "error" : "Attacked hero is not of type 'Tank’."
+}, {
+  "command" : "getPlayerTurn",
+  "output" : 1
+}, {
+  "command" : "getFrozenCardsOnTable",
+  "output" : [ ]
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 1,
+  "output" : 3
+}, {
+  "command" : "getCardAtPosition",
+  "x" : 0,
+  "y" : 0,
+  "output" : {
+    "mana" : 2,
+    "attackDamage" : 3,
+    "health" : 2,
+    "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
+    "colors" : [ "Red", "Blue", "Pink" ],
+    "name" : "Berserker"
+  }
+}, {
+  "command" : "getFrozenCardsOnTable",
+  "output" : [ ]
+}, {
+  "command" : "getPlayerMana",
+  "playerIdx" : 2,
+  "output" : 5
+}, {
+  "command" : "useAttackHero",
+  "attackerCard" : {
+    "x" : 1,
+    "y" : 0
+  },
+  "error" : "Attacked hero is not of type 'Tank’."
+}, {
+  "command" : "placeCard",
+  "error" : "Not enough mana to place card on table.",
+  "handIdx" : 0
+}, {
+  "gameEnded" : "Player one killed the enemy hero."
+} ]
