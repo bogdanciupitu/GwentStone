@@ -24,7 +24,6 @@ public final class EmpressThorina extends Hero {
             }
         }
         if (highestCard != null) {
-            // remove card from deck
             highestCard.setHealth(0);
         }
     }

@@ -12,7 +12,7 @@ class Miraj extends Card {
     @Override
     public void specialAbility(final Card card) {
         this.setAttacked(true);
-        if (card != null && !card.isFrozen()) {
+        if (card != null && !card.isFrozen() && card.getHealth() > 0) {
             int tmp = this.getHealth();
             this.setHealth(card.getHealth());
             card.setHealth(tmp);

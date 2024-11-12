@@ -10,7 +10,6 @@ class TheCursedOne extends Card {
         this.setRow(0);
     }
 
-
     @Override
     public void specialAbility(final Card card) {
         this.setAttacked(true);

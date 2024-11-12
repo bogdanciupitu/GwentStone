@@ -15,7 +15,7 @@ public final class KingMudFace extends Hero {
         this.setAttacked(true);
         for (Card card : cards) {
             if (card != null) {
-                card.setHealth(card.getHealth() - 1);
+                card.setHealth(card.getHealth() + 1);
             }
         }
     }

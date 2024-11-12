@@ -19,6 +19,9 @@ public class Round {
     private int seed;
     private int roundNumber = 1;
     private int startPlayer, currentPlayer;
+    private int playerOneNumberOfWins = 0;
+    private int playerTwoNumberOfWins = 0;
+    private int numberGames = 0;
 
     private static final int TABLE_ROWS = 4;
     private static final int TABLE_COLUMNS = 5;
@@ -127,7 +130,7 @@ public class Round {
                             }
                         }
                     } else {
-                        for (int i = 0; i < 2 ; i++) {
+                        for (int i = 0; i < 2; i++) {
                             for (int j = 0; j < TABLE_COLUMNS; j++) {
                                 if (table.getTable()[i][j] != null) {
                                     table.getTable()[i][j].setFrozen(false);
@@ -136,6 +139,8 @@ public class Round {
                             }
                         }
                     }
+
+                    heroes[currentPlayer - 1].setAttacked(false);
 
                     currentPlayer = (currentPlayer % 2) + 1;
                     if (currentPlayer == startPlayer) {
@@ -235,9 +240,9 @@ public class Round {
                     getCardsOnTableCommand.put("command", actionsInput.getCommand());
 
                     ArrayNode tableCards = mapper.createArrayNode();
-                    for (int i = 0; i < 4; i++) {
+                    for (int i = 0; i < TABLE_ROWS; i++) {
                         ArrayNode rowCards = mapper.createArrayNode();
-                        for (int j = 0; j < 5; j++) {
+                        for (int j = 0; j < TABLE_COLUMNS; j++) {
                             if (table.getTable()[i][j] != null) {
                                 Card card = table.getTable()[i][j];
                                 ObjectNode cardNode = mapper.createObjectNode();
@@ -267,12 +272,12 @@ public class Round {
                     ObjectNode cardAttackerNode = mapper.createObjectNode();
                     cardAttackerNode.put("x", actionsInput.getCardAttacker().getX());
                     cardAttackerNode.put("y", actionsInput.getCardAttacker().getY());
-                    cardUsesAttackCommand.set("attackerCard", cardAttackerNode);
+                    cardUsesAttackCommand.set("cardAttacker", cardAttackerNode);
 
                     ObjectNode cardAttackedNode = mapper.createObjectNode();
                     cardAttackedNode.put("x", actionsInput.getCardAttacked().getX());
                     cardAttackedNode.put("y", actionsInput.getCardAttacked().getY());
-                    cardUsesAttackCommand.set("attackedCard", cardAttackedNode);
+                    cardUsesAttackCommand.set("cardAttacked", cardAttackedNode);
 
                     int attackerX = actionsInput.getCardAttacker().getX();
                     int attackerY = actionsInput.getCardAttacker().getY();
@@ -283,7 +288,8 @@ public class Round {
                     Card attacked = table.getCard(attackedX, attackedY);
 
                     if (attacker != null && attacked != null) {
-                        if (attackerX / 2 == attackedX / 2) {
+                        if (attackerX / 2 == attackedX / 2 || (attackerX == 0 && attackedX == 1)
+                                || (attackerX == 3 && attackedX == 2)) {
                             cardUsesAttackCommand.put("error",
                                     "Attacked card does not belong to the enemy.");
                             output.add(cardUsesAttackCommand);
@@ -358,11 +364,15 @@ public class Round {
                                 cardUsesAbilityCommand.put("error",
                                         "Attacked card does not belong to the current player.");
                                 output.add(cardUsesAbilityCommand);
-                            } else if (attackerAbility.getName().equals("The Ripper")
+                            } else {
+                                attackerAbility.specialAbility(attackedAbility);
+                                attackerAbility.setAttacked(true);
+                            }
+                        } else if (attackerAbility.getName().equals("The Ripper")
                                     || attackerAbility.getName().equals("Miraj")
                                     || attackerAbility.getName().equals("The Cursed One")) {
                                 if (attackerAbilityX / 2 == attackedAbilityX / 2) {
-                                    cardAttackedAbilityNode.put("error",
+                                    cardUsesAbilityCommand.put("error",
                                             "Attacked card does not belong to the enemy.");
                                     output.add(cardUsesAbilityCommand);
                                 } else {
@@ -371,7 +381,7 @@ public class Round {
                                         for (int j = 0; j < table.getTable()[i].length; j++) {
                                             Card card = table.getCard(i, j);
                                             if (card != null && card.isTank()
-                                                    && i / 2 != attackedAbilityX / 2) {
+                                                    && i / 2 != attackerAbilityX / 2) {
                                                 existsTank = true;
                                                 break;
                                             }
@@ -382,22 +392,14 @@ public class Round {
                                     }
                                     if (existsTank && !attackedAbility.isTank()) {
                                         cardUsesAbilityCommand.put("error",
-                                                "Attacked card is not of type 'Tank’.");
+                                                "Attacked card is not of type 'Tank'.");
                                         output.add(cardUsesAbilityCommand);
                                     } else {
-                                        if (attackerAbility.getName().equals("The Ripper")) {
-                                            attackerAbility.specialAbility(attackedAbility);
-                                        } else if (attackerAbility.getName().equals("Miraj")) {
-                                            attackerAbility.specialAbility(attackedAbility);
-                                        } else if (attackerAbility.getName()
-                                                .equals("The Cursed One")) {
-                                            attackerAbility.specialAbility(attackedAbility);
-                                        }
+                                        attackerAbility.specialAbility(attackedAbility);
                                         attackerAbility.setAttacked(true);
                                     }
                                 }
                             }
-                        }
                     }
 
                     break;
@@ -437,7 +439,7 @@ public class Round {
                     ObjectNode heroAttackerNode = mapper.createObjectNode();
                     heroAttackerNode.put("x", actionsInput.getCardAttacker().getX());
                     heroAttackerNode.put("y", actionsInput.getCardAttacker().getY());
-                    useAttackHeroCommand.set("attackerCard", heroAttackerNode);
+                    useAttackHeroCommand.set("cardAttacker", heroAttackerNode);
 
                     int heroAttackerX = actionsInput.getCardAttacker().getX();
                     int heroAttackerY = actionsInput.getCardAttacker().getY();
@@ -473,25 +475,31 @@ public class Round {
 
                             if (existsTank) {
                                 useAttackHeroCommand.put("error",
-                                        "Attacked hero is not of type 'Tank’.");
+                                        "Attacked card is not of type 'Tank'.");
                                 output.add(useAttackHeroCommand);
                             } else {
                                 Hero attackedHero = heroes[attackedHeroIdx];
-                                attackedHero.setHealth(attackedHero.getHealth()
-                                        - heroAttacker.getAttackDamage());
+                                int newHealth = attackedHero.getHealth()
+                                        - heroAttacker.getAttackDamage();
+                                attackedHero.setHealth(Math.max(newHealth, 0));
                                 heroAttacker.setAttacked(true);
 
                                 if (attackedHero.getHealth() <= 0) {
                                     String gameEndedMessage;
                                     if (currentPlayer == 1) {
                                         gameEndedMessage = "Player one killed the enemy hero.";
+//                                        numberOfWinsPlayer2++;
+                                        playerOneNumberOfWins++;
+                                        numberGames++;
                                     } else {
                                         gameEndedMessage = "Player two killed the enemy hero.";
+//                                        numberOfWinsPlayer2++;
+                                        playerTwoNumberOfWins++;
+                                        numberGames++;
                                     }
                                     ObjectNode gameEndedCommand = mapper.createObjectNode();
                                     gameEndedCommand.put("gameEnded", gameEndedMessage);
                                     output.add(gameEndedCommand);
-                                    return 1;
                                 }
                             }
                         }
@@ -515,17 +523,27 @@ public class Round {
 
                     if (currentHero.isAttacked()) {
                         useHeroAbilityCommand.put("error",
-                                "Hero has already used his ability this turn.");
+                                "Hero has already attacked this turn.");
                         output.add(useHeroAbilityCommand);
                         break;
                     }
 
                     int affectedRow = actionsInput.getAffectedRow();
-                    boolean isEnemyRow = (currentHeroPlayerIdx == 0 && affectedRow >= 2
-                            || currentHeroPlayerIdx == 1 && affectedRow < 2);
+                    boolean isEnemyRow = false;
+
+                    if (currentHeroPlayerIdx == 1) {
+                        if (affectedRow == 2 || affectedRow == 3) {
+                            isEnemyRow = true;
+                        }
+                    } else if (currentHeroPlayerIdx == 0) {
+                        if (affectedRow == 0 || affectedRow == 1) {
+                            isEnemyRow = true;
+                        }
+                    }
+
                     boolean isAllyRow = !isEnemyRow;
 
-                    if (currentHero.getName().equals("Lord Royce ")
+                    if (currentHero.getName().equals("Lord Royce")
                             || currentHero.getName().equals("Empress Thorina")) {
                         if (isAllyRow) {
                             useHeroAbilityCommand.put("error",
@@ -538,35 +556,17 @@ public class Round {
                                 card.setFrozen(true);
                             }
                         }
-                    } else if (currentHero.getName().equals("King MudFace")
+                    } else if (currentHero.getName().equals("King Mudface")
                             || currentHero.getName().equals("General Kocioraw")) {
                         if (isEnemyRow) {
                             useHeroAbilityCommand.put("error",
-                                    "Selected row does not belong to the ally.");
+                                    "Selected row does not belong to the current player.");
                             output.add(useHeroAbilityCommand);
                             break;
                         }
-                        currentHero.specialAbility(table.getTable()[affectedRow]);
                     }
 
-//                    if (currentHero.getUseOnWho() == 1) {
-//                        if (isAllyRow) {
-//                            useHeroAbilityCommand.put("error",
-//                                    "Selected row does not belong to the enemy.");
-//                            output.add(useHeroAbilityCommand);
-//                            break;
-//                        }
-//                        currentHero.specialAbility(table.getTable()[affectedRow]);
-//                    } else if (currentHero.getUseOnWho() == 0) {
-//                        if (isEnemyRow) {
-//                            useHeroAbilityCommand.put("error",
-//                                    "Selected row does not belong to the ally.");
-//                            output.add(useHeroAbilityCommand);
-//                            break;
-//                        }
-//                        currentHero.specialAbility(table.getTable()[affectedRow]);
-//                    }
-
+                    currentHero.specialAbility(table.getTable()[affectedRow]);
                     currentHero.setAttacked(true);
                     manaPlayers[currentHeroPlayerIdx] -= currentHero.getMana();
 
@@ -603,19 +603,22 @@ public class Round {
                 case "getTotalGamesPlayed":
                     ObjectNode getTotalGamesPlayedCommand = mapper.createObjectNode();
                     getTotalGamesPlayedCommand.put("command", actionsInput.getCommand());
-                    getTotalGamesPlayedCommand.put("output", numberOfGames);
+//                    getTotalGamesPlayedCommand.put("output", numberOfGames);
+                    getTotalGamesPlayedCommand.put("output", numberGames);
                     output.add(getTotalGamesPlayedCommand);
                     break;
                 case "getPlayerOneWins":
                     ObjectNode getPlayerOneWinsCommand = mapper.createObjectNode();
                     getPlayerOneWinsCommand.put("command", actionsInput.getCommand());
-                    getPlayerOneWinsCommand.put("output", numberOfWinsPlayer1);
+//                    getPlayerOneWinsCommand.put("output", numberOfWinsPlayer1);
+                    getPlayerOneWinsCommand.put("output", playerOneNumberOfWins);
                     output.add(getPlayerOneWinsCommand);
                     break;
                 case "getPlayerTwoWins":
                     ObjectNode getPlayerTwoWinsCommand = mapper.createObjectNode();
                     getPlayerTwoWinsCommand.put("command", actionsInput.getCommand());
-                    getPlayerTwoWinsCommand.put("output", numberOfWinsPlayer2);
+//                    getPlayerTwoWinsCommand.put("output", numberOfWinsPlayer2);
+                    getPlayerTwoWinsCommand.put("output", playerTwoNumberOfWins);
                     output.add(getPlayerTwoWinsCommand);
                     break;
                 default:
