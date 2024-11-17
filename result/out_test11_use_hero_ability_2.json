@@ -3,11 +3,11 @@
   "x" : 1,
   "y" : 0,
   "output" : {
-    "mana" : 1,
-    "attackDamage" : 7,
-    "health" : 0,
+    "mana" : 2,
+    "attackDamage" : 6,
+    "health" : 4,
     "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
-    "colors" : [ "Orange", "Red", "Black" ],
+    "colors" : [ "Black", "Yellow" ],
     "name" : "The Ripper"
   }
 }, {
@@ -39,13 +39,6 @@
 }, {
   "command" : "getCardsOnTable",
   "output" : [ [ ], [ {
-    "mana" : 1,
-    "attackDamage" : 8,
-    "health" : 0,
-    "description" : "Premium card: Ravished by the winds of hell, no soul is to be forgiven.",
-    "colors" : [ "Orange", "Red", "Black" ],
-    "name" : "The Ripper"
-  }, {
     "mana" : 2,
     "attackDamage" : 7,
     "health" : 4,

@@ -62,6 +62,7 @@ public class Round {
         this.decks.get(0).remove(0);
         this.decks.get(1).remove(0);
         int winner = 0;
+        int result = 0;
 
         for (ActionsInput actionsInput : actionsInputs) {
             switch (actionsInput.getCommand()) {
@@ -303,17 +304,23 @@ public class Round {
                             output.add(cardUsesAttackCommand);
                         } else {
                             boolean existsTank = false;
-                            for (int i = 0; i < table.getTable()[attackedX].length; i++) {
-                                Card card = table.getCard(attackedX, i);
-                                if (card != null && card.isTank()) {
-                                    existsTank = true;
+                            for (int i = 0; i < table.getTable().length; i++) {
+                                for (int j = 0; j < table.getTable()[i].length; j++) {
+                                    Card card = table.getCard(i, j);
+                                    if (card != null && card.isTank()
+                                            && i / 2 != attackerX / 2) {
+                                        existsTank = true;
+                                        break;
+                                    }
+                                }
+                                if (existsTank) {
                                     break;
                                 }
                             }
 
                             if (existsTank && !attacked.isTank()) {
                                 cardUsesAttackCommand.put("error",
-                                        "Attacked card is not of type 'Tank’");
+                                        "Attacked card is not of type 'Tank'.");
                                 output.add(cardUsesAttackCommand);
                             } else {
                                 attacked.setHealth(attacked.getHealth()
@@ -397,6 +404,9 @@ public class Round {
                                     } else {
                                         attackerAbility.specialAbility(attackedAbility);
                                         attackerAbility.setAttacked(true);
+                                        if (attackedAbility.getHealth() <= 0) {
+                                            table.getTable()[attackedAbilityX][attackedAbilityY] = null;
+                                        }
                                     }
                                 }
                             }
@@ -458,12 +468,11 @@ public class Round {
                         } else {
                             int attackedHeroIdx = (currentPlayer + 1) % 2;
                             boolean existsTank = false;
-
                             for (int i = 0; i < table.getTable().length; i++) {
                                 for (int j = 0; j < table.getTable()[i].length; j++) {
                                     Card currentCard = table.getCard(i, j);
-                                    if (currentCard != null
-                                            && currentCard.isTank() && i / 2 == attackedHeroIdx) {
+                                    if (currentCard != null && currentCard.isTank()
+                                            && i / 2 == attackedHeroIdx) {
                                         existsTank = true;
                                         break;
                                     }
@@ -478,6 +487,7 @@ public class Round {
                                         "Attacked card is not of type 'Tank'.");
                                 output.add(useAttackHeroCommand);
                             } else {
+                                attackedHeroIdx = (attackedHeroIdx == 0) ? 1 : 0;
                                 Hero attackedHero = heroes[attackedHeroIdx];
                                 int newHealth = attackedHero.getHealth()
                                         - heroAttacker.getAttackDamage();
@@ -486,20 +496,21 @@ public class Round {
 
                                 if (attackedHero.getHealth() <= 0) {
                                     String gameEndedMessage;
+
                                     if (currentPlayer == 1) {
                                         gameEndedMessage = "Player one killed the enemy hero.";
-//                                        numberOfWinsPlayer2++;
                                         playerOneNumberOfWins++;
                                         numberGames++;
                                     } else {
                                         gameEndedMessage = "Player two killed the enemy hero.";
-//                                        numberOfWinsPlayer2++;
                                         playerTwoNumberOfWins++;
                                         numberGames++;
                                     }
+
                                     ObjectNode gameEndedCommand = mapper.createObjectNode();
                                     gameEndedCommand.put("gameEnded", gameEndedMessage);
                                     output.add(gameEndedCommand);
+//                                    result = 1;
                                 }
                             }
                         }
@@ -595,10 +606,8 @@ public class Round {
                         }
                     }
 
-                    if (frozenCards.isEmpty()) {
-                        getFrozenCardsOnTableCommand.set("output", frozenCards);
-                        output.add(getFrozenCardsOnTableCommand);
-                    }
+                    getFrozenCardsOnTableCommand.set("output", frozenCards);
+                    output.add(getFrozenCardsOnTableCommand);
                     break;
                 case "getTotalGamesPlayed":
                     ObjectNode getTotalGamesPlayedCommand = mapper.createObjectNode();

@@ -94,7 +94,7 @@ public class Game {
                     hero2 = new EmpressThorina(tmp.getMana(), HERO_HEALTH, 0,
                             tmp.getDescription(), tmp.getColors(), tmp.getName());
                     break;
-                case "King MudFace":
+                case "King Mudface":
                     hero2 = new KingMudFace(tmp.getMana(), HERO_HEALTH, 0,
                             tmp.getDescription(), tmp.getColors(), tmp.getName());
                     break;

@@ -32,7 +32,7 @@
     "description" : "Premium card: Time to show who we are, the low-class was never scared of you.",
     "colors" : [ "Brown", "Pink", "Purple" ],
     "name" : "King Mudface",
-    "health" : 30
+    "health" : 25
   }
 }, {
   "command" : "getPlayerHero",
@@ -42,7 +42,7 @@
     "description" : "Standard card: Absolute order, a soldier must devote his life to his General.",
     "colors" : [ "Red", "Black", "Purple" ],
     "name" : "General Kocioraw",
-    "health" : 25
+    "health" : 30
   }
 }, {
   "command" : "getCardsInHand",
@@ -82,7 +82,7 @@
     "description" : "Premium card: Time to show who we are, the low-class was never scared of you.",
     "colors" : [ "Brown", "Pink", "Purple" ],
     "name" : "King Mudface",
-    "health" : 30
+    "health" : 25
   }
 }, {
   "command" : "getPlayerHero",
@@ -92,7 +92,7 @@
     "description" : "Standard card: Absolute order, a soldier must devote his life to his General.",
     "colors" : [ "Red", "Black", "Purple" ],
     "name" : "General Kocioraw",
-    "health" : 25
+    "health" : 30
   }
 }, {
   "command" : "getPlayerMana",

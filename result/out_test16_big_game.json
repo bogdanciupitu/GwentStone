@@ -84,30 +84,19 @@
   "command" : "getPlayerTurn",
   "output" : 2
 }, {
-  "command" : "cardUsesAttack",
+  "command" : "useAttackHero",
   "cardAttacker" : {
     "x" : 0,
-    "y" : 2
-  },
-  "cardAttacked" : {
-    "x" : 2,
     "y" : 1
   },
-  "error" : "Attacker card is frozen."
+  "error" : "Attacked card is not of type 'Tank'."
 }, {
   "command" : "useAttackHero",
   "cardAttacker" : {
     "x" : 0,
     "y" : 1
   },
-  "error" : "Attacker card is frozen."
-}, {
-  "command" : "useAttackHero",
-  "cardAttacker" : {
-    "x" : 0,
-    "y" : 1
-  },
-  "error" : "Attacker card is frozen."
+  "error" : "Attacked card is not of type 'Tank'."
 }, {
   "command" : "getPlayerTurn",
   "output" : 1
@@ -129,7 +118,7 @@
   "output" : {
     "mana" : 2,
     "attackDamage" : 2,
-    "health" : 2,
+    "health" : 3,
     "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker"
@@ -155,7 +144,7 @@
   "output" : [ [ {
     "mana" : 2,
     "attackDamage" : 2,
-    "health" : 2,
+    "health" : 3,
     "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
     "colors" : [ "Red", "Blue", "Pink" ],
     "name" : "Berserker"

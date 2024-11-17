@@ -22,10 +22,10 @@
     "y" : 0
   },
   "cardAttacked" : {
-    "x" : 1,
+    "x" : 0,
     "y" : 0
   },
-  "error" : "Attacker card has already attacked this turn."
+  "error" : "Attacked card is not of type 'Tank'."
 }, {
   "command" : "cardUsesAttack",
   "cardAttacker" : {
@@ -80,7 +80,7 @@
   "output" : {
     "mana" : 3,
     "attackDamage" : 2,
-    "health" : 5,
+    "health" : 2,
     "description" : "Standard card: A warrior who is never afraid of battle, no matter the costs",
     "colors" : [ "Brown", "Black", "Grey" ],
     "name" : "Goliath"
@@ -97,6 +97,13 @@
   "command" : "getCardsOnTable",
   "output" : [ [ {
     "mana" : 1,
+    "attackDamage" : 2,
+    "health" : 2,
+    "description" : "Premium card: His presence is not known even by ghosts, success at all costs.",
+    "colors" : [ "Black", "White" ],
+    "name" : "Sentinel"
+  }, {
+    "mana" : 1,
     "attackDamage" : 3,
     "health" : 1,
     "description" : "Standard card: A drink can always be served, with the blood of his enemies.",
@@ -112,7 +119,7 @@
   } ], [ {
     "mana" : 3,
     "attackDamage" : 2,
-    "health" : 5,
+    "health" : 2,
     "description" : "Standard card: A warrior who is never afraid of battle, no matter the costs",
     "colors" : [ "Brown", "Black", "Grey" ],
     "name" : "Goliath"

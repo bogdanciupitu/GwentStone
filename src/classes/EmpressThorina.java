@@ -13,18 +13,25 @@ public final class EmpressThorina extends Hero {
     @Override
     public void specialAbility(final Card[] cards) {
         this.setAttacked(true);
-        Card highestCard = null;
-        for (Card card : cards) {
+        Card highestHealthCard = null;
+        int index = -1;
+
+        for (int i = 0; i < cards.length; i++) {
+            Card card = cards[i];
             if (card != null) {
-                if (highestCard == null) {
-                    highestCard = card;
-                } else if (card.getAttackDamage() > highestCard.getAttackDamage()) {
-                    highestCard = card;
+                if (highestHealthCard == null) {
+                    highestHealthCard = card;
+                    index = i;
+                } else if (card.getHealth() > highestHealthCard.getHealth()) {
+                    highestHealthCard = card;
+                    index = i;
                 }
             }
         }
-        if (highestCard != null) {
-            highestCard.setHealth(0);
+
+        if (highestHealthCard != null) {
+            highestHealthCard.setHealth(0);
+            cards[index] = null;
         }
     }
 }
